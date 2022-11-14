@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap -->
+    <link type="text/css" rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" />
+    <!-- Estilos css -->
+    <link rel="stylesheet" href="estilos.css">
+    <link rel="stylesheet" href="">
+    <title>Tecnocel</title>
+</head>
+
+<body>
+
+    <header class="p-3 text-bg-dark">
+        <div class="container">
+            <h1 class="container">Tecnocel.</h1>
+            <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+                <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
+                    <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap">
+                        <use xlink:href="#bootstrap"></use>
+                    </svg>
+                </a>
+
+                <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+                    <li><a href="#" class="nav-link px-2 text-secondary">Inicio</a></li>
+                    <li><a href="#" class="nav-link px-2 text-white">Nosotros</a></li>
+                    <li><a href="#" class="nav-link px-2 text-white">Accesorios</a></li>
+                    <li><a href="#" class="nav-link px-2 text-white">RRHH</a></li>
+                    <li><a href="#" class="nav-link px-2 text-white">.</a></li>
+                </ul>
+
+                <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
+                    <input type="search" id="buscadorNav" class="form-control form-control-dark text-bg-dark"
+                        placeholder="Search..." aria-label="Search">
+                </form>
+
+                <div class="text-end">
+                    <button type="button" class="btn btn-outline-light me-2">Login</button>
+                    <button type="button" class="btn btn-danger">Sign-up</button>
+
+                </div>
+                <ul>
+                    <select id="selectOrden" class="form-select form-select-sm" aria-label=".form-select-sm example">
+                        <option selected>Ordenar por:</option>
+                        <option value="1">Menor a mayor</option>
+                        <option value="2">Mayor a menor</option>
+                        <option value="3">Alfabeticamente</option>
+                    </select>
+                </ul>
+                <ul className="navbar-nav me-auto">
+                    <li className="nav-item ">
+                        <a id="botonCarrito" data-bs-toggle="modal" data-bs-target="#idModal"
+                            class="btn btn-secondary"><img src="imagenes/carritoCompras.jpeg" class="carritoCompras" alt="logo cleaning service"><i class="fas fa-shopping-cart fa-1x"></i></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+    </header>
+    <!-- MODAL -->
+    <div class="modal fade" id="idModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title tituloCarritoCompras" id="exampleModalLabel">Carrito de Compras</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="modal-body">
+
+                </div>
+                <div class="row ml-ato">
+                    <p id="precioTotal" class="px-5"></p>
+                </div>
+                <div class="modal-footer">
+
+
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="button" data-bs-dismiss="modal" class="btn btn-danger"
+                        id="botonFinalizarCompra">Finalizar Compra</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br><br>
+    <div class="col-3">
+
+        <button  data-bs-toggle="modal" data-bs-target="#idModalAgregarCelular"
+            class="btn btn-danger">Agregar celular</button>
+
+    </div>
+
+    <br><br>
+
+    <div class="container">
+        <div id="coincidencia"></div>
+        <div id="productos" class="row estilosProductos">
+        </div>
+    </div>
+
+    <main>
+        <!-- <div id="productos" class="estilosPorductos"></div> -->
+        <!-- agregar celular -->
+        <div class="modal fade" id="idModalAgregarCelular" tabindex="-1" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title tituloCarritoCompras" id="exampleModalLabel">Agregar celular</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body" id="modal-body">
+                        <form>
+                            <div class="mb-3">
+                                <label for="titulo">Ingrese Marca:</label><br>
+                                <input type="text" id="marcaInput" name="marca"><br>
+
+                            </div>
+                            <div class="mb-3">
+                                <label for="autor">Ingrese Modelo:</label><br>
+                                <input type="text" id="modeloInput" name="modelo"><br>
+
+                            </div>
+                            <div class="mb-3">
+                                <label for="autor">Ingrese Color:</label><br>
+                                <input type="text" id="colorInput" name="color"><br>
+
+                            </div>
+                            <div>
+                                <label for="autor">Ingrese Capacidad GB:</label><br>
+                                <input type="number" id="capacidadInput" name="capacidad"><br>
+                            </div>
+                            <div>
+                                <label for="precio">Ingrese precio:</label><br>
+                                <input type="number" id="precioInput" name="precio"><br>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                        <button type="text" id="guardarCelBtn" class="btn btn-danger">Guardar Libro</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+
+
+
+    </footer>
+
+    <!-- vinculacion con Java Script -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script src="main.js"></script>
+
+</body>
+
+</html>
