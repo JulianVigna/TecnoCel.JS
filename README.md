@@ -15,3 +15,5 @@ Filtro de ordenamiento alfabeticamente por marca, por menor precio y por mayor p
 Agregar dispositivo al carrito de compras, alli se puede eliminar los mismos.
 Tambien se puede finalizar la compra donde habra un condicional si desea avanzar o no con la misma.
 
+Es consumida de un archivo .JSON
+
