@@ -28,23 +28,23 @@ class Dispositivo {
 // array stock
 let stockDispositivos = []
 
-const cargarDispositivos = async ()=>{
+const cargarDispositivos = async () => {
     const response = await fetch("celulares.json")
     const data = await response.json()
     console.log(data)
-    for(let celular of data){
-        let celularNuevo = new Dispositivo (celular.id, celular.marca, celular.modelo, celular.capacidad, celular.color, celular.precio, celular.imagen)
+    for (let celular of data) {
+        let celularNuevo = new Dispositivo(celular.id, celular.marca, celular.modelo, celular.capacidad, celular.color, celular.precio, celular.imagen)
         stockDispositivos.push(celularNuevo)
     }
     localStorage.setItem("stock", JSON.stringify(stockDispositivos))
-    }
+}
 
-    // inicializador 
-    if (localStorage.getItem("stock")) {
-        stockDispositivos = JSON.parse(localStorage.getItem("stock"))
-    } else {
-        console.log(`se esta ingresando por primera vez`)
-        cargarDispositivos()
+// inicializador 
+if (localStorage.getItem("stock")) {
+    stockDispositivos = JSON.parse(localStorage.getItem("stock"))
+} else {
+    console.log(`se esta ingresando por primera vez`)
+    cargarDispositivos()
 }
 // Array de productos en el carrito
 let productosEnCarrito = []
@@ -91,7 +91,7 @@ function nuevoDispositivo(array) {
 }
 
 
-// Construccion de opcion stock de dispositivos
+// Construccion de opcion stocks de dispositivos
 
 function dispositivosActuales(array) {
     productos.innerHTML = ""
@@ -113,18 +113,16 @@ function dispositivosActuales(array) {
 
         btnAgregar.addEventListener("click", () => {
             agregarCarrito(celular)
-
-
         })
     }
 }
 
 // Funcion agregar al carrito
 function agregarCarrito(celular) {
-    let celularAgregado = productosEnCarrito.find((elem)=>(elem.id == celular.id))
+    let celularAgregado = productosEnCarrito.find((elem) => (elem.id == celular.id))
     console.log(celularAgregado)
-    if(celularAgregado == undefined){
-        
+    if (celularAgregado == undefined) {
+
         productosEnCarrito.push(celular)
         console.log(productosEnCarrito)
         localStorage.setItem("carrito", JSON.stringify(productosEnCarrito))
@@ -141,7 +139,7 @@ function agregarCarrito(celular) {
             imageWidth: 200,
             imageAlt: `${celular.marca}${celular.modelo}`
         })
-    }else{
+    } else {
         console.log(`el celular ya existe en el carrito`)
 
         Swal.fire({
@@ -149,7 +147,7 @@ function agregarCarrito(celular) {
             icon: "error",
             confirmButtonColor: "red",
             timer: 1000,
-            text:`ya se encuentra en el carrito`,
+            text: `ya se encuentra en el carrito`,
             text: `${celular.marca} ${celular.modelo} ${celular.capacidad} GB ${celular.color}`,
             imageUrl: `imagenes/${celular.imagen}`,
             imageHeight: 200,
@@ -210,7 +208,7 @@ function compraTotal(array) {
 // finalizar compra 
 
 function finalizarCompra() {
-    
+
     Swal.fire({
         title: 'Está seguro de realizar la compra ?',
         icon: 'info',
@@ -220,7 +218,7 @@ function finalizarCompra() {
         confirmButtonColor: 'green',
         cancelButtonColor: 'red',
     }).then((result) => {
-        
+
         if (result.isConfirmed) {
             Swal.fire({
                 title: 'Compra realizada',
@@ -277,7 +275,6 @@ function ordenarAlfabeticamente(array) {
     dispositivosActuales(alfabeticamente)
 }
 
-
 // Buscador
 function buscarInfo(buscado, array) {
     let busqueda = array.filter(
@@ -288,7 +285,6 @@ function buscarInfo(buscado, array) {
     A continuación tiene todo nuestro catálogo disponible:</h3>`, dispositivosActuales(array))
         : (coincidencia.innerHTML = "", dispositivosActuales(busqueda))
 }
-
 
 // Eliminar de carrito de compra 
 
@@ -341,7 +337,6 @@ setTimeout(() => {
 
 botonFinalizarCompra.addEventListener("click", () => {
     finalizarCompra()
-
 })
 
 
