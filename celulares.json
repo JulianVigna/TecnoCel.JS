@@ -1,0 +1,101 @@
+[
+    {
+        "id": 1,
+        "marca": "Iphone",
+        "modelo": "14 pro max",
+        "capacidad": 256,
+        "color": "silver",
+        "precio": 500000,
+        "imagen": "14promaxsilver.jpeg"
+    },
+    {
+        "id": 2,
+        "marca": "Iphone",
+        "modelo": "14 pro max",
+        "capacidad": 128,
+        "color": "gold",
+        "precio": 420000,
+        "imagen": "14promaxgold.jpeg"
+    },
+    {
+        "id": 3,
+        "marca": "Iphone",
+        "modelo": "14 pro",
+        "capacidad": 128,
+        "color": "silver",
+        "precio": 390000,
+        "imagen": "14promaxsilver.jpeg"
+    },
+    {
+        "id": 4,
+        "marca": "Iphone",
+        "modelo": "14",
+        "capacidad": 128,
+        "color": "green",
+        "precio": 300000,
+        "imagen": "14green.jpeg"
+    },
+    {
+        "id": 5,
+        "marca": "Iphone",
+        "modelo": "13 pro max",
+        "capacidad": 256,
+        "color": "space black",
+        "precio": 400000,
+        "imagen": "14prospaceblack.jpeg"
+    },
+    {
+        "id": 6,
+        "marca": "Iphone",
+        "modelo": "13",
+        "capacidad": 128,
+        "color": "red",
+        "precio": 260000,
+        "imagen": "13red.jpeg"
+    },
+    {
+        "id": 7,
+        "marca": "xiaomi",
+        "modelo": "redmi 10",
+        "capacidad": 256,
+        "color": "black",
+        "precio": 230000,
+        "imagen": "redmi10black.jpeg"
+    },
+    {
+        "id": 8,
+        "marca": "Samsung",
+        "modelo": "S22",
+        "capacidad": 128,
+        "color": "black",
+        "precio": 280000,
+        "imagen": "s22black.jpeg"
+    },
+    {
+        "id": 9,
+        "marca": "Samsung",
+        "modelo": "51",
+        "capacidad": 128,
+        "color": "white",
+        "precio": 200000,
+        "imagen": "a51white.jpeg"
+    },
+    {
+        "id": 10,
+        "marca": "Samsung",
+        "modelo": "51",
+        "capacidad": 256,
+        "color": "white",
+        "precio": 240000,
+        "imagen": "a51white.jpeg"
+    },
+    {
+        "id": 11,
+        "marca": "Samsung",
+        "modelo": "S22",
+        "capacidad": 128,
+        "color": "green",
+        "precio": 280000,
+        "imagen": "s22green.jpeg"
+    }
+]

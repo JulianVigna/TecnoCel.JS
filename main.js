@@ -7,17 +7,13 @@ let botonCarrito = document.getElementById("botonCarrito")
 let coincidencia = document.getElementById("coincidencia")
 let btnFiltro = document.getElementById("selectOrden")
 let divCompra = document.getElementById("precioTotal")
+let loaderSpinner = document.getElementById("loaderSpinner")
+let botonFinalizarCompra = document.getElementById("botonFinalizarCompra")
 
-
-function saludoInicial(){
-    alert(`Bienvenido a Tecnocel!!`
-    )
-}
-// saludoInicial()
 
 // Funcion constructora de agregar celulares
 class Dispositivo {
-    constructor(id, marca, modelo, capacidad, color, precio, imagen){
+    constructor(id, marca, modelo, capacidad, color, precio, imagen) {
 
         this.id = id
         this.marca = marca
@@ -27,54 +23,42 @@ class Dispositivo {
         this.precio = precio
         this.imagen = imagen
     }
-
 }
-// array
 
-const dispositivo1 = new Dispositivo(1,"Iphone","14 pro max", 256, "silver", 500000, "14promaxsilver.jpeg")
-
-const dispositivo2 = new Dispositivo(2,"Iphone","14 pro max", 128,"gold", 420000, "14promaxgold.jpeg")
-
-const dispositivo3 = new Dispositivo(3,"Iphone", "14 pro", 128, "silver", 390000,  "14promaxsilver.jpeg")
-
-const dispositivo4 = new Dispositivo(4,"Iphone","14", 128, "green", 300000, "14green.jpeg")
-
-const dispositivo5 = new Dispositivo(5,"Iphone", "13 pro max", 256, "space black", 400000, "14prospaceblack.jpeg")
-
-const dispositivo6 = new Dispositivo(6,"Iphone", "13", 128, "red", 260000, "13red.jpeg")
-
-const dispositivo7 = new Dispositivo(7,"xiaomi", "redmi 10", 256, "black", 230000, "redmi10black.jpeg")
-
-const dispositivo8 = new Dispositivo(8,"Samsung", "S22", 128, "black", 280000, "s22black.jpeg")
-
-const dispositivo9 = new Dispositivo(9,"Samsung", "51", 128, "white", 200000, "a51white.jpeg")
-
-const dispositivo10 = new Dispositivo(10,"Samsung", "51", 256, "white", 240000, "a51white.jpeg")
-
-const dispositivo11 = new Dispositivo(11,"Samsung", "S22", 128, "green", 280000, "s22green.jpeg")
-
+// array stock
 let stockDispositivos = []
 
-if(localStorage.getItem("stock")){
-    stockDispositivos = JSON.parse(localStorage.getItem("stock"))
-}else{
-    console.log(`se esta ingresando por primera vez`)
-    stockDispositivos.push(dispositivo1, dispositivo2, dispositivo3, dispositivo4, dispositivo5, dispositivo6, dispositivo7, dispositivo8, dispositivo9, dispositivo10, dispositivo11)
-    localStorage.setItem("stock",JSON.stringify(stockDispositivos))
-}
+const cargarDispositivos = async ()=>{
+    const response = await fetch("celulares.json")
+    const data = await response.json()
+    console.log(data)
+    for(let celular of data){
+        let celularNuevo = new Dispositivo (celular.id, celular.marca, celular.modelo, celular.capacidad, celular.color, celular.precio, celular.imagen)
+        stockDispositivos.push(celularNuevo)
+    }
+    localStorage.setItem("stock", JSON.stringify(stockDispositivos))
+    }
 
+    // inicializador 
+    if (localStorage.getItem("stock")) {
+        stockDispositivos = JSON.parse(localStorage.getItem("stock"))
+    } else {
+        console.log(`se esta ingresando por primera vez`)
+        cargarDispositivos()
+}
+// Array de productos en el carrito
 let productosEnCarrito = []
 
-if(localStorage.getItem("carrito")){
+if (localStorage.getItem("carrito")) {
     productosEnCarrito = JSON.parse(localStorage.getItem("carrito"))
-}else{
+} else {
     console.log(`se esta ingresando por primera vez`)
 
-    localStorage.setItem("carrito",JSON.stringify(productosEnCarrito))
+    localStorage.setItem("carrito", JSON.stringify(productosEnCarrito))
 }
-// Construccion de opcion 1 Agregar celulares
+// Construccion de opcion Agregar celulares
 
-function nuevoDispositivo(array){
+function nuevoDispositivo(array) {
 
     let inputMarca = document.getElementById("marcaInput")
     let inputModelo = document.getElementById("modeloInput")
@@ -82,7 +66,7 @@ function nuevoDispositivo(array){
     let inputCapacidad = document.getElementById("capacidadInput")
     let inputPrecio = document.getElementById("precioInput")
 
-    let nuevoDispositivoCreado = new Dispositivo(array.length+1, inputMarca.value, inputModelo.value, inputColor.value, parseInt(inputCapacidad.value),parseInt(inputPrecio.value), "newPhone.jpeg" )
+    let nuevoDispositivoCreado = new Dispositivo(array.length + 1, inputMarca.value, inputModelo.value, parseInt(inputCapacidad.value), inputColor.value, parseInt(inputPrecio.value), "newPhone.jpeg")
 
     array.push(nuevoDispositivoCreado)
 
@@ -90,56 +74,98 @@ function nuevoDispositivo(array){
 
     dispositivosActuales(array)
     console.log(array)
+    Swal.fire({
+        title: "Ha agregado un nuevo producto a la lista",
+        icon: "success",
+        confirmButtonColor: "red",
+        timer: 1500,
+        text: `${inputMarca.value} ${inputModelo.value} ${inputColor.value} ${inputCapacidad.value} GB`
+    })
 
     inputMarca.value = ""
     inputModelo.value = ""
     inputColor.value = ""
     inputCapacidad.value = ""
     inputPrecio.value = ""
+
 }
 
 
-// Construccion de opcion 2
+// Construccion de opcion stock de dispositivos
 
-function dispositivosActuales(array){
+function dispositivosActuales(array) {
     productos.innerHTML = ""
 
-    for(let celular of array){
+    for (let celular of array) {
         let nuevoCelular = document.createElement("div")
         nuevoCelular.innerHTML = `<article id="${celular.id}" class="card">
                                     <h3 class="tituloCard">${celular.marca} ${celular.modelo}</h3>
                                     <img src="imagenes/${celular.imagen}"  alt="${celular.marca} de ${celular.modelo}">
                                     <div class="content">
-                                        <p class="autorCard">color: ${celular.color}<br> Capacidad: ${celular.capacidad} GB</p>
+                                        <p class="autorCard">color: ${celular.color}<br> Capacidad: ${celular.capacidad}GB</p><br>
                                         <p class="precioCard">$ ${celular.precio}</p>
                                         <button id="agregarBtn${celular.id}" class="btn btn-outline-danger">Agregar al carrito</button>
 
                                     </div>
                                 </article>`
         productos.appendChild(nuevoCelular)
-    let btnAgregar = document.getElementById(`agregarBtn${celular.id}`)
-    
-    btnAgregar.addEventListener("click", ()=>{
-        agregarCarrito(celular)
+        let btnAgregar = document.getElementById(`agregarBtn${celular.id}`)
 
-    })
+        btnAgregar.addEventListener("click", () => {
+            agregarCarrito(celular)
+
+
+        })
     }
 }
 
 // Funcion agregar al carrito
 function agregarCarrito(celular) {
-    console.log(celular)
-    productosEnCarrito.push(celular)
-    console.log(productosEnCarrito)
-    localStorage.setItem("carrito", JSON.stringify(productosEnCarrito))
+    let celularAgregado = productosEnCarrito.find((elem)=>(elem.id == celular.id))
+    console.log(celularAgregado)
+    if(celularAgregado == undefined){
+        
+        productosEnCarrito.push(celular)
+        console.log(productosEnCarrito)
+        localStorage.setItem("carrito", JSON.stringify(productosEnCarrito))
+
+        // sweetAlert para agregar al carrito
+        Swal.fire({
+            title: "Ha agregado un producto",
+            icon: "success",
+            confirmButtonColor: "red",
+            timer: 1000,
+            text: `${celular.marca} ${celular.modelo} ${celular.capacidad} GB ${celular.color}`,
+            imageUrl: `imagenes/${celular.imagen}`,
+            imageHeight: 200,
+            imageWidth: 200,
+            imageAlt: `${celular.marca}${celular.modelo}`
+        })
+    }else{
+        console.log(`el celular ya existe en el carrito`)
+
+        Swal.fire({
+            title: "Producto ya agregado",
+            icon: "error",
+            confirmButtonColor: "red",
+            timer: 1000,
+            text:`ya se encuentra en el carrito`,
+            text: `${celular.marca} ${celular.modelo} ${celular.capacidad} GB ${celular.color}`,
+            imageUrl: `imagenes/${celular.imagen}`,
+            imageHeight: 200,
+            imageWidth: 200,
+            imageAlt: `${celular.marca}${celular.modelo}`
+        })
+    }
 
 }
 
+
 // Imprimir en el modal
 
-function cargarProductosCarrito(array){
+function cargarProductosCarrito(array) {
     modalBody.innerHTML = ""
-    array.forEach((productoCarrito)=>{
+    array.forEach((productoCarrito) => {
         modalBody.innerHTML += `
         <div class="card border-danger mb-3" id ="productoCarrito${productoCarrito.id}" style="max-width: 540px;">
             <img class="card-img-top" height="300px" src="imagenes/${productoCarrito.imagen}" alt="${productoCarrito.marca} ${productoCarrito.modelo}">
@@ -150,38 +176,82 @@ function cargarProductosCarrito(array){
             </div>
         </div>`
     })
-    array.forEach((productoCarrito, indice)=>{
-        document.getElementById(`botonEliminar${productoCarrito.id}`).addEventListener("click",()=>{
+    array.forEach((productoCarrito, indice) => {
+        document.getElementById(`botonEliminar${productoCarrito.id}`).addEventListener("click", () => {
             console.log(`se elimina ${productoCarrito.marca} ${productoCarrito.modelo} ${productoCarrito.color} ${productoCarrito.capacidad}GB`)
+
             // eliminar del DOM
             let cardProducto = document.getElementById(`productoCarrito${productoCarrito.id}`)
             cardProducto.remove()
             // eliminar del array de comprar
-            productosEnCarrito.splice(indice, 1)
+            let productoEliminar = array.find(celular => celular.id == productoCarrito.id)
+            console.log(productoEliminar)
+            let posicion = array.indexOf(productoEliminar)
+            array.splice(posicion, 1)
             // eliminar del storage
             localStorage.setItem("carrito", JSON.stringify(productosEnCarrito))
             // vuelve a calcular el total 
             compraTotal(array)
-        } )
+        })
     })
     compraTotal(array)
 }
 
-// function calcular total
+// funcion calcular total
 
-function compraTotal(array){
+function compraTotal(array) {
     let acumulador = 0
-    acumulador = array.reduce((acc, productoCarrito)=> acc + productoCarrito.precio, 0)
+    acumulador = array.reduce((acc, productoCarrito) => acc + productoCarrito.precio, 0)
     console.log(acumulador)
-    acumulador == 0 ? divCompra.innerHTML= `No hay productos en el carrito` : divCompra.innerHTML = `El total es $${acumulador} `
+    acumulador == 0 ? divCompra.innerHTML = `No hay productos en el carrito` : divCompra.innerHTML = `El total es $${acumulador} `
+    return acumulador
+}
+
+// finalizar compra 
+
+function finalizarCompra() {
+    
+    Swal.fire({
+        title: 'Está seguro de realizar la compra ?',
+        icon: 'info',
+        showCancelButton: true,
+        confirmButtonText: 'Sí, seguro',
+        cancelButtonText: 'No, no quiero',
+        confirmButtonColor: 'green',
+        cancelButtonColor: 'red',
+    }).then((result) => {
+        
+        if (result.isConfirmed) {
+            Swal.fire({
+                title: 'Compra realizada',
+                icon: 'success',
+                confirmButtonColor: 'green',
+                text: `Muchas gracias por su compra. `,
+                timer: 3500
+            })
+            //llevar a cero el array de carrito
+            productosEnCarrito = []
+            //Tenemos que researtearlo localStorage
+            localStorage.removeItem("carrito")
+        } else {
+
+            Swal.fire({
+                title: 'Compra no realizada',
+                icon: 'error',
+                text: `La compra no ha sido realizada! Atención sus productos siguen en el carrito !`,
+                confirmButtonColor: 'red',
+                timer: 3500,
+            })
+        }
+    })
 }
 
 
-// Construccion de opcion 3 filtros
+// Construccion de Filtros
 
 function ordenarMenorMayor(array) {
     let menorMayor = [].concat(array)
-    menorMayor.sort((a,b) => (a.precio - b.precio))
+    menorMayor.sort((a, b) => (a.precio - b.precio))
     console.log(array)
     console.log(menorMayor)
     dispositivosActuales(menorMayor)
@@ -189,17 +259,17 @@ function ordenarMenorMayor(array) {
 
 function ordenarMayorMenor(array) {
     let mayorMenor = [].concat(array)
-    mayorMenor.sort((a,b) => (b.precio - a.precio))
+    mayorMenor.sort((a, b) => (b.precio - a.precio))
     console.log(array)
     console.log(mayorMenor)
     dispositivosActuales(mayorMenor)
 }
 
-function ordenarAlfabeticamente(array){
+function ordenarAlfabeticamente(array) {
     let alfabeticamente = array.slice()
-    alfabeticamente.sort((a,b) => {
-        if(a.marca.toLowerCase() < b.marca.toLowerCase())return -1
-        if(a.marca.toLowerCase() > b.marca.toLowerCase())return 1
+    alfabeticamente.sort((a, b) => {
+        if (a.marca.toLowerCase() < b.marca.toLowerCase()) return -1
+        if (a.marca.toLowerCase() > b.marca.toLowerCase()) return 1
         return 0
     })
     console.log(array)
@@ -208,23 +278,23 @@ function ordenarAlfabeticamente(array){
 }
 
 
-// buscador
-function buscarInfo(buscado, array){
+// Buscador
+function buscarInfo(buscado, array) {
     let busqueda = array.filter(
         (celular) => celular.marca.toLowerCase().includes(buscado.toLowerCase()) || celular.modelo.toLowerCase().includes(buscado.toLowerCase())
     )
-    busqueda.length == 0 ? 
-    (coincidencia.innerHTML = `<h3 class="text-danger m-2">No hay coincidencias con su busqueda.. 
-    A continuación tiene todo nuestro catálogo disponible:</h3>`, dispositivosActuales(array)) 
-    : (coincidencia.innerHTML = "", dispositivosActuales(busqueda))
+    busqueda.length == 0 ?
+        (coincidencia.innerHTML = `<h3 class="text-danger m-2">No hay coincidencias con su busqueda.. 
+    A continuación tiene todo nuestro catálogo disponible:</h3>`, dispositivosActuales(array))
+        : (coincidencia.innerHTML = "", dispositivosActuales(busqueda))
 }
 
 
-// Construccion de opcion 4 eliminar
+// Eliminar de carrito de compra 
 
-function eliminarCelular(array){
+function eliminarCelular(array) {
     console.log("A partir del catálogo ingrese el id del libro a eliminar")
-    for(let elem of array){
+    for (let elem of array) {
         console.log(`Nª${elem.id}. $${elem.marca} ${elem.modelo} capacidad ${elem.capacidad} GB, color ${elem.color} precio: $${elem.precio}`)
     }
     let idEliminar = parseInt(prompt("Ingrese el id a eliminar"))
@@ -242,74 +312,36 @@ function eliminarCelular(array){
 
 
 // Eventos
-btnGuardarCel.addEventListener("click", ()=>{nuevoDispositivo(stockDispositivos)})
-buscadorNav.addEventListener("input", ()=>{buscarInfo(buscadorNav.value, stockDispositivos)})
-botonCarrito.addEventListener("click",()=>{
-    cargarProductosCarrito(productosEnCarrito)})
+btnGuardarCel.addEventListener("click", () => { nuevoDispositivo(stockDispositivos) })
+buscadorNav.addEventListener("input", () => { buscarInfo(buscadorNav.value, stockDispositivos) })
+botonCarrito.addEventListener("click", () => {
+    cargarProductosCarrito(productosEnCarrito)
+})
 
-btnFiltro.addEventListener("change",() =>{
+btnFiltro.addEventListener("change", () => {
     console.log(btnFiltro.value)
 
-    if(btnFiltro.value == 1){
+    if (btnFiltro.value == 1) {
         ordenarMenorMayor(stockDispositivos)
-    }else if(btnFiltro.value == 2)
-    {ordenarMayorMenor(stockDispositivos)
-    }else if (btnFiltro.value == 3){
+    } else if (btnFiltro.value == 2) {
+        ordenarMayorMenor(stockDispositivos)
+    } else if (btnFiltro.value == 3) {
         ordenarAlfabeticamente(stockDispositivos)
-    }else{
+    } else {
         dispositivosActuales(stockDispositivos)
     }
 }
 )
+// Spiner
+setTimeout(() => {
+    loaderSpinner.remove()
+    dispositivosActuales(stockDispositivos)
+}, 1000
+)
 
-dispositivosActuales(stockDispositivos)
+botonFinalizarCompra.addEventListener("click", () => {
+    finalizarCompra()
+
+})
 
 
-
-
-
-
-
-
-
-// Menu
-// function preguntarOpcion(){
-//     let opcion = parseInt( prompt(`Ingrese el numero de opcion que desean realizar:
-//         1 - Agregar celular
-//         2 - Ver celulares
-//         3 - Filtrar celulares
-//         4 - Eliminar celular
-//         0 - Salir
-//     `))
-//     menu(opcion)
-// }
-
-// function menu (opcionSeleccionada) {
-//     switch(opcionSeleccionada){
-
-//         case 0:
-//             salir = true
-//             alert(`Gracias por visitarnos !`)
-
-//         break
-//         case 1: nuevoDispositivo(stockDispositivos)
-
-//         break
-//         case 2: dispositivosActuales(stockDispositivos)
-
-//         break
-//         case 3: filtro(stockDispositivos)
-
-//         break
-//         case 4: eliminarCelular(stockDispositivos)
-
-//         break
-//         default:
-//             alert(`Ingrese una opcion correcta`)
-
-//         }
-// }
-// let salir = false
-// while (salir!= true){
-//     preguntarOpcion()
-// }
