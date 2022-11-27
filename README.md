@@ -4,7 +4,7 @@ https://julianvigna.github.io/TecnoCel.JS/
 
 Tecnocel es una empresa que se dedica a la venta de dispositivos mobiles de ultima generacion.
 
-Tiene las siguientes fucionnalidades:
+Tiene las siguientes funcionalidades:
 
 Agregar nuevo celular, el mismo es agregado al stock reflejandose en el DOM y guardado en el Storage.
 
